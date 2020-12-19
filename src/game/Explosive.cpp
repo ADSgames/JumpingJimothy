@@ -24,6 +24,9 @@ Explosive::Explosive(const float x,
   body->SetType(b2_kinematicBody);
 }
 
+// Destructor
+Explosive::~Explosive(){};
+
 // subclass b2QueryCallback for proximity query callback
 class MyQueryCallback : public b2QueryCallback {
  public:
@@ -60,9 +63,9 @@ void Explosive::update(b2World* world) {
     b2Vec2 bodyCom = newBody->GetWorldCenter();
 
     // Ignore bodies outside the blast range
-    if ((bodyCom - center).Length() >= blastRadius)
+    if ((bodyCom - center).Length() >= blastRadius) {
       continue;
-    else {
+    } else {
       applyBlastImpulse(
           newBody, center, bodyCom,
           blastPower * 0.05f);  // scale blast power to roughly match results of
@@ -82,8 +85,9 @@ void Explosive::applyBlastImpulse(b2Body* newBody,
   if (newBody == body || newBody->GetType() != b2_dynamicBody ||
       ((newBody == gameCharacter->getBody() ||
         newBody == gameCharacter->getSensorBody()) &&
-       !affect_character))
+       !affect_character)) {
     return;
+  }
 
   // Blast direction
   b2Vec2 blastDir = applyPoint - blastCenter;
@@ -92,8 +96,9 @@ void Explosive::applyBlastImpulse(b2Body* newBody,
   const float distance = blastDir.Normalize();
 
   // Ignore bodies exactly at the blast point - blast direction is undefined
-  if (distance < 0.01f)
+  if (distance < 0.01f) {
     return;
+  }
 
   // Distance
   const float invDistance = 1 / distance;
@@ -147,16 +152,17 @@ void Explosive::draw() {
     // one day
   }
 
-  if (affect_character)
+  if (affect_character) {
     al_draw_filled_rectangle(-(getWidth() / 2) * 20 + 1,
                              -(getHeight() / 2) * 20 + 1,
                              (getWidth() / 2) * 20 - 1,
                              (getHeight() / 2) * 20 - 1, al_map_rgb(255, 0, 0));
-  else
+  } else {
     al_draw_filled_rectangle(-(getWidth() / 2) * 20 + 1,
                              -(getHeight() / 2) * 20 + 1,
                              (getWidth() / 2) * 20 - 1,
                              (getHeight() / 2) * 20 - 1, al_map_rgb(0, 255, 0));
+  }
 
   // PI/2 is a quarter turn. Editor boxes orientation is a range from 1-4.
   // So we have a quarter turn * 1-4, creating a quarter turn, half turn, ect.

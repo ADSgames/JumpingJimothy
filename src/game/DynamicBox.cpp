@@ -36,11 +36,12 @@ void DynamicBox::draw() {
   // Velocity colouring
   b2Vec2 draw_velocity = b2Vec2(0, 0);
 
-  if (isPaused)
+  if (isPaused) {
     paused_velocity = b2Vec2(paused_velocity.x, paused_velocity.y);
-  else
+  } else {
     paused_velocity =
         b2Vec2(body->GetLinearVelocity().x, body->GetLinearVelocity().y);
+  }
 
   // Draw colour
   al_draw_filled_rectangle(
@@ -55,6 +56,9 @@ void DynamicBox::draw() {
   // restore the old transform
   al_use_transform(&prevTrans);
 }
+
+// Update does nothing
+void DynamicBox::update(b2World* world){};
 
 // Get box type
 int DynamicBox::getType() {

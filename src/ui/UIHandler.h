@@ -16,7 +16,8 @@
 class UIHandler {
  public:
   UIHandler();
-  virtual ~UIHandler();
+  ~UIHandler();
+
   void addElement(UIElement* newUIElement);
   void draw();
   void update();

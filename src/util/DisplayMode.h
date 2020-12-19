@@ -13,10 +13,6 @@
 
 class DisplayMode {
  public:
-  // Ctor and Dtor
-  DisplayMode(){};
-  virtual ~DisplayMode(){};
-
   // Possible screen modes
   enum {
     FULLSCREEN_WINDOW_STRETCH,

@@ -21,7 +21,7 @@ class Explosive : public Box {
             b2World* world);
 
   // Destructor
-  virtual ~Explosive(){};
+  virtual ~Explosive();
 
   // Draw
   virtual void draw() override;

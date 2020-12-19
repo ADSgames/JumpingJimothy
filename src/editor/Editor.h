@@ -40,8 +40,8 @@ class Editor : public State {
   virtual ~Editor();
 
   // Override parent
-  void update(StateEngine* engine);
-  void draw();
+  virtual void update(StateEngine* engine) override;
+  virtual void draw() override;
 
  private:
   UIHandler editorUI;
@@ -54,13 +54,13 @@ class Editor : public State {
   // Functions
   void calculate_orientation_global();
 
-  bool box_at(int x, int y);
-  bool box_at_with_type(int newType, int x, int y);
+  bool box_at(const int x, const int y);
+  bool box_at_with_type(const int newType, const int x, const int y);
 
   bool is_player();
 
-  bool save_map(std::string mapName);
-  bool load_map(std::string mapName);
+  bool save_map(const std::string& mapName);
+  bool load_map(const std::string& mapName);
 
   static const int BUTTON_COUNT = 17;
 

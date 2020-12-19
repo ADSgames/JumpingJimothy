@@ -42,8 +42,9 @@ Character::Character(const float x,
   land.load_wav("sfx/land.wav");
 
   // Slice character images up
-  for (int i = 0; i < 15; i++)
+  for (int i = 0; i < 15; i++) {
     sprites[i] = al_create_sub_bitmap(sprite, i * 32, 0, 32, 64);
+  }
 }
 
 // Destructor
@@ -64,24 +65,27 @@ b2Body* Character::getSensorBody() {
 }
 
 void Character::update(b2World* world) {
-  // Instead of 1000 checks to the sensor box, we will do precisely one.
+  // Store collision status
   bool sensor_colliding = sensor_box->isColliding();
 
-  if (sensor_colliding)
+  if (sensor_colliding) {
     counter_sensor_contact++;
-  else
+  } else {
     counter_sensor_contact = 0;
+  }
 
-  if (counter_sensor_contact > 25)
+  if (counter_sensor_contact > 25) {
     landed = true;
+  }
 
   if ((body->GetLinearVelocity().y >= -0.01f &&
        body->GetLinearVelocity().y <= 0.01f) &&
       sensor_colliding && velocity_old < -0.01f) {
     // Volume of land sound
     float land_volume = velocity_old / 20;
-    if (land_volume > 1)
+    if (land_volume > 1) {
       land_volume = 1;
+    }
     land.play(land_volume);
     landed = true;
   }
@@ -106,8 +110,9 @@ void Character::update(b2World* world) {
     frame++;
     tick = 0;
   }
-  if (frame == 14)
+  if (frame == 14) {
     frame = 0;
+  }
 
   // Position of body
   b2Vec2 position = body->GetPosition();
@@ -127,16 +132,18 @@ void Character::update(b2World* world) {
 
   if (ActionBinder::actionHeld(ACTION_LEFT)) {
     direction = false;
-    if (sensor_colliding)
+    if (sensor_colliding) {
       body->SetLinearVelocity(b2Vec2(-x_velocity_ground, yVel));
-    else if (getBody()->GetLinearVelocity().x > -x_velocity_air_max)
+    } else if (getBody()->GetLinearVelocity().x > -x_velocity_air_max) {
       body->ApplyLinearImpulse(b2Vec2(-x_velocity_air, 0), position, true);
+    }
   } else if (ActionBinder::actionHeld(ACTION_RIGHT)) {
     direction = true;
-    if (sensor_colliding)
+    if (sensor_colliding) {
       body->SetLinearVelocity(b2Vec2(x_velocity_ground, yVel));
-    else if (getBody()->GetLinearVelocity().x < x_velocity_air_max)
+    } else if (getBody()->GetLinearVelocity().x < x_velocity_air_max) {
       body->ApplyLinearImpulse(b2Vec2(x_velocity_air, 0), position, true);
+    }
   } else if (sensor_colliding) {
     body->SetLinearVelocity(b2Vec2(0, body->GetLinearVelocity().y));
   }
@@ -158,10 +165,11 @@ void Character::update(b2World* world) {
   timer_sound_delay++;
 
   // Fixed Danny's poop code by getting rid if it =)
-  if (sensor_colliding)
+  if (sensor_colliding) {
     color = al_map_rgb(50, 100, 255);
-  else
+  } else {
     color = al_map_rgb(0, 0, 255);
+  }
 }
 
 void Character::draw() {
@@ -190,21 +198,23 @@ void Character::draw() {
   const int y_offset = -13;
 
   if (direction) {
-    if (body->GetLinearVelocity().Length() > 0.1f)
+    if (body->GetLinearVelocity().Length() > 0.1f) {
       al_draw_bitmap(sprites[frame], -(getWidth() / 2) * 20 + x_offset,
                      (-(getHeight() / 2) * 20) + y_offset, 0);
-    else
+    } else {
       al_draw_bitmap(sprites[14], -(getWidth() / 2) * 20 + x_offset,
                      (-(getHeight() / 2) * 20) + y_offset, 0);
+    }
   } else {
-    if (body->GetLinearVelocity().Length() > 0.1f)
+    if (body->GetLinearVelocity().Length() > 0.1f) {
       al_draw_bitmap(sprites[frame], -(getWidth() / 2) * 20 + x_offset,
                      (-(getHeight() / 2) * 20) + y_offset,
                      ALLEGRO_FLIP_HORIZONTAL);
-    else
+    } else {
       al_draw_bitmap(sprites[14], -(getWidth() / 2) * 20 + x_offset,
                      (-(getHeight() / 2) * 20) + y_offset,
                      ALLEGRO_FLIP_HORIZONTAL);
+    }
   }
 
   // restore the old transform

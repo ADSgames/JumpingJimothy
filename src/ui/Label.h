@@ -22,9 +22,6 @@ class Label : public UIElement {
         std::string id,
         ALLEGRO_FONT* font);
 
-  // Dtor
-  inline virtual ~Label(){};
-
   // Draw
   virtual void draw() override;
 

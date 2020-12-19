@@ -28,8 +28,8 @@ class Game : public State {
   ~Game();
 
   // Override parent
-  void update(StateEngine* engine);
-  void draw();
+  virtual void update(StateEngine* engine) override;
+  virtual void draw() override;
   bool level_complete();
 
  private:
@@ -43,8 +43,7 @@ class Game : public State {
                           float y,
                           float velX,
                           float velY,
-                          ALLEGRO_BITMAP*,
-                          bool bodyType);
+                          ALLEGRO_BITMAP*);
   Box* create_explosive_box(float, float, int, bool);
   Box* create_static_box(float x, float y, ALLEGRO_BITMAP*);
   Box* create_collision_box(float x, float y, float, float);

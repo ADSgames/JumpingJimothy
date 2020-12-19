@@ -13,9 +13,6 @@
 
 class KeyListener {
  public:
-  KeyListener(){};
-  virtual ~KeyListener(){};
-
   static bool anyKeyPressed;
 
   void on_event(ALLEGRO_EVENT_TYPE event_type, const int keycode);

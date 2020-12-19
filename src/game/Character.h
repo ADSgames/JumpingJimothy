@@ -11,12 +11,6 @@
 #include "../util/Sound.h"
 #include "Sensor.h"
 
-class b2World;
-class b2Body;
-class b2BodyDef;
-class b2Vec2;
-class keyListener;
-
 // Number of character images
 const int NUM_CHARACTER_IMAGES = 20;
 

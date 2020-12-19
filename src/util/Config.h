@@ -15,12 +15,6 @@
 // Static config class
 class Config {
  public:
-  // Constructor
-  Config(){};
-
-  // Destructor
-  virtual ~Config(){};
-
   // Read keyvals from file
   static void readFile(std::string path);
 

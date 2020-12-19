@@ -46,8 +46,9 @@ Editor::Editor() {
   gui_mode = true;
   help_menu = tools::load_bitmap_ex("images/help_menu.png");
 
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 6; i++) {
     image_box[i] = nullptr;
+  }
 
   // Load box image
   image_box[0] = tools::load_bitmap_ex("images/box_green.png");
@@ -59,15 +60,19 @@ Editor::Editor() {
 
   cursor = tools::load_bitmap_ex("images/cursor.png");
 
-  for (int i = 0; i < 5; i++)
-    for (int t = 0; t < 15; t++)
+  for (int i = 0; i < 5; i++) {
+    for (int t = 0; t < 15; t++) {
       tiles[i][t] = nullptr;
+    }
+  }
 
   // Static
-  for (int i = 0; i < 3; i++)
-    for (int t = 0; t < 5; t++)
+  for (int i = 0; i < 3; i++) {
+    for (int t = 0; t < 5; t++) {
       tiles[1][i + t * 3] =
           al_create_sub_bitmap(image_box[1], i * 16, t * 16, 16, 16);
+    }
+  }
 
   // Player
   tiles[2][0] = al_create_sub_bitmap(image_box[2], 0, 0, 32, 64);
@@ -86,8 +91,9 @@ Editor::Editor() {
 
   edit_font = al_load_ttf_font("fonts/fantasque.ttf", 18, 0);
 
-  if (!edit_font)
+  if (!edit_font) {
     tools::abort_on_error("Could not load 'fantasque.ttf'.\n", "Font Error");
+  }
 
   grid_on = false;
   editorBoxes.clear();
@@ -157,8 +163,9 @@ Editor::Editor() {
 
   set_explosive_ui_status();
 
-  if (Config::getIntValue("graphics_mode") != DisplayMode::WINDOWED)
+  if (Config::getIntValue("graphics_mode") != DisplayMode::WINDOWED) {
     DisplayMode::setMode(DisplayMode::WINDOWED);
+  }
 
   // Filename
   if (Config::getBooleanValue("EditingLevel")) {
@@ -192,8 +199,9 @@ Editor::~Editor() {
 
 bool Editor::is_player() {
   for (unsigned int i = 0; i < editorBoxes.size(); i++) {
-    if (editorBoxes.at(i).type == 2)
+    if (editorBoxes.at(i).type == 2) {
       return true;
+    }
   }
   return false;
 }
@@ -581,13 +589,17 @@ void Editor::update(StateEngine* engine) {
       newBox.x_str = tools::toString(float(newBox.x + 16) / 20.0f);
       newBox.y_str = tools::toString(-1 * float(newBox.y + 16) / 20.0f);
       newBox.type = tile_type;
+      newBox.height = 0;
+      newBox.width = 0;
+
       newBox.affect_character =
           dynamic_cast<CheckBox*>(
               editorUI.getElementById("chkBlockAffectsChar"))
               ->getChecked();
 
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < 4; i++) {
         newBox.orientation[i] = 0;
+      }
 
       if (tile_type == 0)
         newBox.type_str = "Dynamic";
@@ -650,6 +662,7 @@ void Editor::update(StateEngine* engine) {
         newBox.height_str =
             tools::toString(float(((box_2_y - box_1_y)) / 20.0f));
         newBox.type_str = "Collision";
+        newBox.affect_character = false;
 
         editorBoxes.push_back(newBox);
         modified = true;
@@ -848,11 +861,12 @@ void Editor::draw() {
   // Draw tiles
   for (unsigned int i = 0; i < editorBoxes.size(); i++) {
     if (editorBoxes.at(i).type == 1) {
-      if (editorBoxes.at(i).type == 0)
+      if (editorBoxes.at(i).type == 0) {
         al_draw_filled_rectangle(
             editorBoxes.at(i).x + 0, editorBoxes.at(i).y + 0,
             editorBoxes.at(i).x + 32, editorBoxes.at(i).y + 32,
             al_map_rgb(0, 255, 0));
+      }
 
       // Scroll through all 4 parts
       for (int t = 0; t < 4; t++) {
@@ -866,28 +880,31 @@ void Editor::draw() {
               tiles[editorBoxes.at(i).type][editorBoxes.at(i).orientation[t]],
               editorBoxes.at(i).x + off_x, editorBoxes.at(i).y + off_y, 0);
       }
-    } else if (editorBoxes.at(i).type == 0)
+    } else if (editorBoxes.at(i).type == 0) {
       al_draw_bitmap(tiles[0][0], editorBoxes.at(i).x, editorBoxes.at(i).y, 0);
+    }
 
-    else if (editorBoxes.at(i).type == 2)
+    else if (editorBoxes.at(i).type == 2) {
       al_draw_bitmap(tiles[2][0], editorBoxes.at(i).x, editorBoxes.at(i).y, 0);
-    else if (editorBoxes.at(i).type == 3)
+    } else if (editorBoxes.at(i).type == 3) {
       al_draw_bitmap(tiles[3][0], editorBoxes.at(i).x, editorBoxes.at(i).y, 0);
-    else if (editorBoxes.at(i).type == 5) {
-      if (editorBoxes.at(i).affect_character)
+    } else if (editorBoxes.at(i).type == 5) {
+      if (editorBoxes.at(i).affect_character) {
         al_draw_filled_rectangle(
             editorBoxes.at(i).x + 4, editorBoxes.at(i).y + 4,
             editorBoxes.at(i).x + 28, editorBoxes.at(i).y + 28,
             al_map_rgb(255, 0, 0));
-      else
+      } else {
         al_draw_filled_rectangle(
             editorBoxes.at(i).x + 4, editorBoxes.at(i).y + 4,
             editorBoxes.at(i).x + 28, editorBoxes.at(i).y + 28,
             al_map_rgb(0, 255, 0));
+      }
 
-      if (editorBoxes.at(i).orientation[0] == 0)
+      if (editorBoxes.at(i).orientation[0] == 0) {
         al_draw_bitmap(tiles[4][0], editorBoxes.at(i).x, editorBoxes.at(i).y,
                        0);
+      }
 
       if (editorBoxes.at(i).orientation[0] > 0) {
         // PI/2 is a quarter turn. Editor boxes orientation is a range from 1-4.
@@ -917,72 +934,86 @@ void Editor::draw() {
   }
 
   // Tile type
-  if (tile_type == 0)
+  if (tile_type == 0) {
     al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 30, 0, "Type: Dynamic");
-  if (tile_type == 1)
+  }
+  if (tile_type == 1) {
     al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 30, 0, "Type: Static");
-  if (tile_type == 2)
+  }
+  if (tile_type == 2) {
     al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 30, 0,
                   "Type: Character spawn");
-  if (tile_type == 3)
+  }
+  if (tile_type == 3) {
     al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 30, 0,
                   "Type: Endgame goat");
-  if (tile_type == 4)
+  }
+  if (tile_type == 4) {
     al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 30, 0,
                   "Type: Collision Box");
-  if (tile_type == 5)
+  }
+  if (tile_type == 5) {
     al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 30, 0,
                   "Type: Explosive Box");
+  }
 
   std::string modified_character = "";
-  if (modified)
+  if (modified) {
     modified_character = "*";
+  }
 
   // Current map opened
   al_draw_textf(edit_font, al_map_rgb(0, 0, 0), 10, 10, 0, "File: %s %s",
                 file_name.c_str(), modified_character.c_str());
 
-  if (display_help)
+  if (display_help) {
     al_draw_bitmap(help_menu, 110, 75, 0);
+  }
 
   // Draw buttons
   editorUI.draw();
 
-  if (Config::getBooleanValue("draw_cursor"))
+  if (Config::getBooleanValue("draw_cursor")) {
     al_draw_bitmap(cursor, MouseListener::mouse_x, MouseListener::mouse_y, 0);
+  }
 }
 
 // Check if box is at location
 bool Editor::box_at_with_type(int newType, int x, int y) {
-  for (unsigned int i = 0; i < editorBoxes.size(); i++)
+  for (unsigned int i = 0; i < editorBoxes.size(); i++) {
     if (tools::collision(editorBoxes.at(i).x, editorBoxes.at(i).x + 32,
                          (float)x, (float)x + 1, editorBoxes.at(i).y,
                          editorBoxes.at(i).y + 32, (float)y, (float)y + 1) &&
-        editorBoxes.at(i).type == newType)
+        editorBoxes.at(i).type == newType) {
       return true;
+    }
+  }
   return false;
 }
 
 // Check if box is at location
 bool Editor::box_at(int x, int y) {
-  for (unsigned int i = 0; i < editorBoxes.size(); i++)
+  for (unsigned int i = 0; i < editorBoxes.size(); i++) {
     if (tools::collision(editorBoxes.at(i).x, editorBoxes.at(i).x + 32,
                          (float)x, (float)x + 1, editorBoxes.at(i).y,
-                         editorBoxes.at(i).y + 32, (float)y, (float)y + 1))
+                         editorBoxes.at(i).y + 32, (float)y, (float)y + 1)) {
       return true;
+    }
+  }
   return false;
 }
 
 // Load map from xml-
-bool Editor::load_map(std::string mapName) {
+bool Editor::load_map(const std::string& mapName) {
   // Doc
   rapidxml::xml_document<> doc;
 
   // Make an xml object
   std::ifstream theFile(mapName);
 
-  if (!theFile)
+  if (!theFile) {
     return false;
+  }
 
   // Dump into buffer
   std::vector<char> xml_buffer((std::istreambuf_iterator<char>(theFile)),
@@ -1056,13 +1087,15 @@ bool Editor::load_map(std::string mapName) {
     // Correct orientation format
     std::vector<std::string> splits = tools::split_string(orientation, ' ');
     if (splits.size() == 4) {
-      for (int k = 0; k < 4; k++)
+      for (int k = 0; k < 4; k++) {
         newBox.orientation[k] = (tools::stringToInt(splits.at(k)));
+      }
     }
     // Maybe we can salvage it?
     else if (splits.size() > 0) {
-      for (int k = 0; k < 4; k++)
+      for (int k = 0; k < 4; k++) {
         newBox.orientation[k] = (tools::stringToInt(splits.at(0)));
+      }
     }
     // All hope is lost!
     else {
@@ -1072,19 +1105,19 @@ bool Editor::load_map(std::string mapName) {
     tools::log_message(type_str + " is type_str");
 
     // Body
-    if (newBox.type_str == "Dynamic")
+    if (newBox.type_str == "Dynamic") {
       newBox.type = 0;
-    else if (newBox.type_str == "Static")
+    } else if (newBox.type_str == "Static") {
       newBox.type = 1;
-    else if (newBox.type_str == "Character")
+    } else if (newBox.type_str == "Character") {
       newBox.type = 2;
-    else if (newBox.type_str == "Finish")
+    } else if (newBox.type_str == "Finish") {
       newBox.type = 3;
-    else if (newBox.type_str == "Collision")
+    } else if (newBox.type_str == "Collision") {
       newBox.type = 4;
-    else if (newBox.type_str == "Explosive")
+    } else if (newBox.type_str == "Explosive") {
       newBox.type = 5;
-    else {
+    } else {
       newBox.type = 0;
       tools::log_message("WARNING: Tile created as no type (type 0).");
     }
@@ -1097,7 +1130,7 @@ bool Editor::load_map(std::string mapName) {
 }
 
 // Save map to xml
-bool Editor::save_map(std::string mapName) {
+bool Editor::save_map(const std::string& mapName) {
   // NSFW haxx to prevent goat loading before player
   for (unsigned int i = 0; i < editorBoxes.size(); i++) {
     if (editorBoxes[i].type == GOAT) {
@@ -1148,11 +1181,11 @@ bool Editor::save_map(std::string mapName) {
     char* output_orientation_char =
         doc.allocate_string(output_orientation.c_str());
 
-    if (editorBoxes.at(i).type == 2)
+    if (editorBoxes.at(i).type == 2) {
       xml_type = "Character";
-    else if (editorBoxes.at(i).type == 3)
+    } else if (editorBoxes.at(i).type == 3) {
       xml_type = "Finish";
-    else if (editorBoxes.at(i).type == 5) {
+    } else if (editorBoxes.at(i).type == 5) {
       xml_type = "Explosive";
     }
 

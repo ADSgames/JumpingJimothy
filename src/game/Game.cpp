@@ -98,8 +98,7 @@ Box* Game::create_dynamic_box(float x,
                               float y,
                               float velX,
                               float velY,
-                              ALLEGRO_BITMAP* image,
-                              bool newBodyType) {
+                              ALLEGRO_BITMAP* image) {
   DynamicBox* newDynamicBox =
       new DynamicBox(x, y, velX, velY, world->getB2World());
   newDynamicBox->setImage(image);
@@ -244,10 +243,9 @@ void Game::load_world(std::string file) {
 
         static_count++;
       } else if (type == "Dynamic") {
-        newBox =
-            create_dynamic_box(tools::stringToFloat(x), tools::stringToFloat(y),
-                               tools::stringToFloat(width),
-                               tools::stringToFloat(height), box, true);
+        newBox = create_dynamic_box(
+            tools::stringToFloat(x), tools::stringToFloat(y),
+            tools::stringToFloat(width), tools::stringToFloat(height), box);
         dynamic_count++;
       } else if (type == "Collision") {
         newBox = create_collision_box(
@@ -488,8 +486,8 @@ void Game::draw() {
 
   // Help text
   for (unsigned int i = 0; i < help_text.size(); i++) {
-    al_draw_textf(help_font, al_map_rgb(255, 255, 255), 500, 75 + i * 50, 1,
-                  help_text.at(i).c_str());
+    al_draw_text(help_font, al_map_rgb(255, 255, 255), 500, 75 + i * 50, 1,
+                 help_text.at(i).c_str());
   }
 
   // Draw boxes
@@ -498,13 +496,15 @@ void Game::draw() {
   }
 
   // Pause/play buttons
-  if (testing_back_button)
+  if (testing_back_button) {
     testing_back_button->draw();
+  }
 
-  if (static_mode)
+  if (static_mode) {
     al_draw_bitmap(pause, 10, 10, 0);
-  else
+  } else {
     al_draw_bitmap(play, 10, 10, 0);
+  }
 
   al_draw_textf(game_font, al_map_rgb(255, 255, 255), 1010, 15, 2, "Level %i",
                 level);

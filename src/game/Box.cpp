@@ -8,6 +8,9 @@
 #include "../util/Globals.h"
 #include "../util/Tools.h"
 
+// Velocity threshold
+const float V_THRESH = 0.01f;
+
 // Construct
 Box::Box() {
   // Nullify sprite
@@ -17,7 +20,7 @@ Box::Box() {
 
   isPaused = true;
 
-  paused_velocity = b2Vec2(0, 0);
+  paused_velocity = b2Vec2(0.0f, 0.0f);
   paused_angular_velocity = 0.0f;
 
   color = al_map_rgb(0, 0, 0);
@@ -57,8 +60,9 @@ void Box::setImage(ALLEGRO_BITMAP* image) {
 // Create body
 void Box::createBody(b2World* world) {
   // World must be set
-  if (!world)
+  if (!world) {
     return;
+  }
 
   // Body definition
   b2BodyDef bodyDef;
@@ -68,7 +72,7 @@ void Box::createBody(b2World* world) {
 
   // Shape definition
   b2PolygonShape dynamicBox;
-  dynamicBox.SetAsBox(getWidth() / 2, getHeight() / 2);
+  dynamicBox.SetAsBox(getWidth() / 2.0f, getHeight() / 2.0f);
 
   // Fixture definition
   b2FixtureDef fixtureDef;
@@ -88,30 +92,39 @@ void Box::createBody(b2World* world) {
 // Set static mode
 void Box::setPaused(const bool pause) {
   // Must be pausable
-  if (!isPausable())
+  if (!isPausable()) {
     return;
+  }
 
   // Set paused state
   isPaused = pause;
 
-  // Body must be defined
-  if (!body)
+  // Ensure we have a body
+  if (!body) {
     return;
+  }
 
   if (isPaused) {
+    // Store velocity states
     paused_velocity = body->GetLinearVelocity();
     paused_angular_velocity = body->GetAngularVelocity();
+
+    // Make static
     body->SetType(b2_staticBody);
   } else {
-    isPaused = false;
+    // Make dynamic
     body->SetType(b2_dynamicBody);
-    if (isPausable() &&
-        (paused_velocity.y <= 0.01f && paused_velocity.y >= -0.01f &&
-         paused_velocity.x <= 0.1f && paused_velocity.x >= -0.1f &&
-         paused_angular_velocity <= 0.1f && paused_angular_velocity >= -0.1f)) {
+
+    // If between certain threshold we set to 0.0
+    if (paused_velocity.y <= V_THRESH && paused_velocity.y >= -V_THRESH &&
+        paused_velocity.x <= V_THRESH && paused_velocity.x >= -V_THRESH &&
+        paused_angular_velocity <= V_THRESH &&
+        paused_angular_velocity >= -V_THRESH) {
       body->SetAwake(false);
-      body->SetLinearVelocity(b2Vec2(0, 0));
-    } else {
+      body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+    }
+    // Reinstate velocity
+    else {
       body->SetLinearVelocity(paused_velocity);
       body->SetAngularVelocity(paused_angular_velocity);
     }
@@ -120,15 +133,17 @@ void Box::setPaused(const bool pause) {
 
 // Get x position
 float Box::getX() {
-  if (body)
+  if (body) {
     return body->GetPosition().x;
+  }
   return initial_position.x;
 }
 
 // Get y position
 float Box::getY() {
-  if (body)
+  if (body) {
     return body->GetPosition().y;
+  }
   return initial_position.y;
 }
 
@@ -144,8 +159,9 @@ float Box::getHeight() {
 
 // Get angle
 float Box::getAngle() {
-  if (body)
+  if (body) {
     return body->GetAngle();
+  }
   return 0.0f;
 }
 

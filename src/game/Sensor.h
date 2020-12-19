@@ -10,14 +10,6 @@
 
 #include "Box.h"
 
-class b2World;
-class b2Body;
-class b2BodyDef;
-class b2Vec2;
-class keyListener;
-class b2JointDef;
-class b2WeldJointDef;
-
 class Sensor : public Box {
  public:
   // Constructor
@@ -25,9 +17,6 @@ class Sensor : public Box {
 
   void init(b2World*, b2Body*);
   void createBody(int bodyType, bool fixedRotation);
-
-  // Destructor
-  virtual ~Sensor(){};
 
   // Colliding with something
   bool isColliding();

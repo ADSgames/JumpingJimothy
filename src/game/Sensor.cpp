@@ -61,8 +61,9 @@ void Sensor::createBody(int bodyType, bool fixedRotation) {
   bodyDef.position.Set(initial_position.x, initial_position.y);
   body = gameWorld->CreateBody(&bodyDef);
 
-  if (fixedRotation)
+  if (fixedRotation) {
     body->SetFixedRotation(true);
+  }
 
   // Define another box shape for our dynamic body.
   b2PolygonShape dynamicBox;
@@ -85,8 +86,9 @@ void Sensor::createBody(int bodyType, bool fixedRotation) {
 bool Sensor::isColliding() {
   // Parse contacts
   for (b2ContactEdge* contact = body->GetContactList(); contact;
-       contact = contact->next)
+       contact = contact->next) {
     return true;
+  }
   return false;
 }
 
@@ -94,8 +96,9 @@ bool Sensor::isCollidingWithDynamicBody() {
   // Parse contacts
   for (b2ContactEdge* contact = body->GetContactList(); contact;
        contact = contact->next) {
-    if (contact->other->GetType() == b2_dynamicBody)
+    if (contact->other->GetType() == b2_dynamicBody) {
       return true;
+    }
   }
   return false;
 }
@@ -104,8 +107,9 @@ bool Sensor::isCollidingWithBody(b2Body* newBody) {
   // Parse contacts
   for (b2ContactEdge* contact = body->GetContactList(); contact;
        contact = contact->next) {
-    if (contact->other == newBody)
+    if (contact->other == newBody) {
       return true;
+    }
   }
   return false;
 }

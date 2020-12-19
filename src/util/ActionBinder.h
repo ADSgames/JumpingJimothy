@@ -35,7 +35,6 @@ class Binding {
   }
 
   Binding() : Binding(BINDING_NONE, BINDING_NONE, BINDING_NONE) {}
-  virtual ~Binding() {}
 
   int getType() { return type; }
   int getCode() { return code; }
@@ -49,11 +48,7 @@ class Binding {
 
 class ActionBinder {
  public:
-  ActionBinder(){};
-  virtual ~ActionBinder(){};
-
   static bool actionBegun(const int action);
-  static bool actionEnded(const int action) { return false; };
   static bool actionHeld(const int action);
 
   static void addBinding(int action, int type, int code);

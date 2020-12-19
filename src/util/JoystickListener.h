@@ -15,9 +15,6 @@
 
 class JoystickListener {
  public:
-  JoystickListener(){};
-  virtual ~JoystickListener(){};
-
   void on_event(ALLEGRO_EVENT_TYPE event_type, const int keycode);
   void on_event(ALLEGRO_EVENT_TYPE event_type,
                 const int stick,

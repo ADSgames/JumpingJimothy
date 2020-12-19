@@ -64,8 +64,8 @@ void Button::draw() {
           y + padding_y -
           (tools::get_text_height(UIElement_font, text) - height) / 2 -
           tools::get_text_offset_y(UIElement_font, text);
-      al_draw_textf(UIElement_font, text_colour, text_x, text_y, justification,
-                    text.c_str());
+      al_draw_text(UIElement_font, text_colour, text_x, text_y, justification,
+                   text.c_str());
     }
   }
 

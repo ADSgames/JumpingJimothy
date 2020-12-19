@@ -44,8 +44,9 @@ void Goat::draw() {
     goat_frame++;
     goat_tick = 0;
   }
-  if (goat_frame > 14)
+  if (goat_frame > 14) {
     goat_frame = 0;
+  }
 
   // Draw transform
   ALLEGRO_TRANSFORM trans, prevTrans;
@@ -68,11 +69,8 @@ void Goat::draw() {
 }
 
 bool Goat::getWinCondition() {
-  if (gameCharacter &&
-      sensor_box->isCollidingWithBody(gameCharacter->getBody())) {
-    return true;
-  }
-  return false;
+  return gameCharacter &&
+         sensor_box->isCollidingWithBody(gameCharacter->getBody());
 }
 
 // Get box type

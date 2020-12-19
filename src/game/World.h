@@ -7,7 +7,7 @@ class World {
  public:
   // Constructor
   World(b2Vec2 gravity,
-        float32 timeStep,
+        float timeStep,
         int32 velocityIterations,
         int32 positionIterations,
         bool doSleep);
@@ -28,7 +28,7 @@ class World {
 
   // Vars
   b2Vec2 gravity;
-  float32 timeStep;
+  float timeStep;
   int32 velocityIterations;
   int32 positionIterations;
   bool doSleep;

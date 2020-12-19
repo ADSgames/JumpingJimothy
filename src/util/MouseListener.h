@@ -11,9 +11,6 @@
 
 class MouseListener {
  public:
-  MouseListener(){};
-  virtual ~MouseListener(){};
-
   static const int MAX_MOUSE_BUTTONS = 3;
   static const int MOUSE_LEFT = 1;
   static const int MOUSE_RIGHT = 2;

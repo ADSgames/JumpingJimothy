@@ -16,6 +16,7 @@ class Sound {
  public:
   Sound();
   virtual ~Sound();
+
   void load_wav(std::string path);
   void load_ogg(std::string path);
   void play();

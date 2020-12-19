@@ -5,9 +5,6 @@
 
 class MusicManager {
  public:
-  MusicManager(){};
-  virtual ~MusicManager(){};
-
   static Sound* menu_music;
   static Sound* game_music;
 

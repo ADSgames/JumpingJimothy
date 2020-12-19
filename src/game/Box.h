@@ -11,13 +11,6 @@
 #include <Box2D/Box2D.h>
 #include <allegro5/allegro.h>
 
-class b2World;
-class b2Body;
-class b2BodyDef;
-class b2Vec2;
-class Sensor;
-class Character;
-
 class Box {
  public:
   // Constructor
