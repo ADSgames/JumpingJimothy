@@ -16,44 +16,44 @@
 class Config {
  public:
   // Read keyvals from file
-  static void readFile(std::string path);
+  static void readFile(const std::string& path);
 
   // Write keyvals to file
-  static void writeFile(std::string path);
+  static void writeFile(const std::string& path);
 
   // Get string value from key
-  static std::string getValue(std::string key);
+  static std::string getValue(const std::string& key);
 
   // Get int value from key
-  static int getIntValue(std::string key);
+  static int getIntValue(const std::string& key);
 
   // Get boolean value from key
-  static bool getBooleanValue(std::string key);
+  static bool getBooleanValue(const std::string& key);
 
   // Set string value
-  static void setValue(std::string key, std::string value);
+  static void setValue(const std::string& key, std::string value);
 
   // String literal (so int is not called)
-  static void setValue(std::string key, const char* value);
+  static void setValue(const std::string& key, const char* value);
 
   // Set int value
-  static void setValue(std::string key, const int value);
+  static void setValue(const std::string& key, const int value);
 
   // Set boolean value
-  static void setValue(std::string key, const bool value);
+  static void setValue(const std::string& key, const bool value);
 
  private:
   // Key value pairs
   class Dict {
    public:
-    Dict(std::string key, std::string value) {
+    Dict(const std::string& key, std::string value) {
       this->key = key;
       this->value = value;
     }
 
     std::string getKey() { return key; }
     std::string getValue() { return value; }
-    void setValue(std::string value) { this->value = value; }
+    void setValue(const std::string& value) { this->value = value; }
 
    private:
     // Key
@@ -64,10 +64,10 @@ class Config {
   };
 
   // Find key val pair
-  static Dict* findKey(std::string key);
+  static Dict* findKey(const std::string& key);
 
   // Add ket val pair
-  static void addKey(std::string key, std::string value);
+  static void addKey(const std::string& key, std::string value);
 
   // Values
   static std::vector<Dict*> data;

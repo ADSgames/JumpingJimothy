@@ -10,14 +10,14 @@
 #include "MouseListener.h"
 
 // A function to streamline error reporting in file loading
-void tools::abort_on_error(std::string message, std::string title) {
+void tools::abort_on_error(const std::string& message, std::string title) {
   al_show_native_message_box(nullptr, "Error", title.c_str(), message.c_str(),
                              nullptr, ALLEGRO_MESSAGEBOX_ERROR);
   exit(-1);
 }
 
 // Load sample if exits, or throw error
-ALLEGRO_SAMPLE* tools::load_sample_ex(std::string file) {
+ALLEGRO_SAMPLE* tools::load_sample_ex(const std::string& file) {
   // Log file
   log_message("Loading sound " + file, true);
 
@@ -40,7 +40,7 @@ ALLEGRO_SAMPLE* tools::load_sample_ex(std::string file) {
 }
 
 // Load bitmap if exits, or throw error
-ALLEGRO_BITMAP* tools::load_bitmap_ex(std::string file) {
+ALLEGRO_BITMAP* tools::load_bitmap_ex(const std::string& file) {
   // Log file
   log_message("Loading bitmap " + file, true);
 
@@ -95,7 +95,7 @@ int tools::get_text_height(ALLEGRO_FONT* newFont, std::string newText) {
 }
 
 // Convert string to int
-int tools::stringToInt(std::string str) {
+int tools::stringToInt(const std::string& str) {
   if (str == "")
     return 0;
   int result;
@@ -104,31 +104,36 @@ int tools::stringToInt(std::string str) {
 }
 
 // Convert char to float
-float tools::stringToFloat(std::string str) {
-  if (str == "")
+float tools::stringToFloat(const std::string& str) {
+  std::string str_copy = str;
+
+  if (str_copy == "") {
     return 0.0f;
+  }
+
   float number = 0.0f;
   int sign = 1;
   // Parse string
   // Negative
-  if (str[0] == '-') {
+  if (str_copy[0] == '-') {
     sign = -1;
-    str = str.substr(1, str.length());
+    str_copy = str_copy.substr(1, str_copy.length());
   }
   // Location of decimal
-  int decimal_loc = str.length();
-  for (unsigned int i = 0; i < str.length(); i++) {
-    if (str[i] == '.') {
+  int decimal_loc = str_copy.length();
+  for (unsigned int i = 0; i < str_copy.length(); i++) {
+    if (str_copy[i] == '.') {
       decimal_loc = i;
-      str = str.substr(0, i) + str.substr(i + 1, str.length() - i);
+      str_copy =
+          str_copy.substr(0, i) + str_copy.substr(i + 1, str_copy.length() - i);
     }
   }
   // Numbers
-  for (unsigned int i = 0; i < str.length(); i++) {
-    int tempNumber = int(str[i]) - 48;
-    number += tempNumber * pow(10, (str.length()) - (i + 1));
+  for (unsigned int i = 0; i < str_copy.length(); i++) {
+    int tempNumber = int(str_copy[i]) - 48;
+    number += tempNumber * pow(10, (str_copy.length()) - (i + 1));
   }
-  return (number / float(pow(10, str.length() - decimal_loc))) * sign;
+  return (number / float(pow(10, str_copy.length() - decimal_loc))) * sign;
 }
 
 // Split string
@@ -148,7 +153,7 @@ int tools::random_int(const int min, const int max) {
 }
 
 // Log message to console
-void tools::log_message(std::string message, bool debug) {
+void tools::log_message(const std::string& message, bool debug) {
   if (debug) {
 #ifdef Debug
     std::cout << message << "\n";

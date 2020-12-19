@@ -186,12 +186,12 @@ void UIElement::setSize(const int width, const int height) {
 }
 
 // Set text
-void UIElement::setText(std::string text) {
+void UIElement::setText(const std::string& text) {
   this->text = text;
 }
 
 // Set id
-void UIElement::setId(std::string id) {
+void UIElement::setId(const std::string& id) {
   this->id = id;
 }
 

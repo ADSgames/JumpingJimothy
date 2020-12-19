@@ -98,10 +98,10 @@ class UIElement {
   void setSize(const int width, const int height);
 
   // Set text
-  void setText(std::string text);
+  void setText(const std::string& text);
 
   // Set id
-  void setId(std::string id);
+  void setId(const std::string& id);
 
   // Set image
   void setImage(ALLEGRO_BITMAP* image);

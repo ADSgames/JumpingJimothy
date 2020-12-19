@@ -27,13 +27,13 @@ ALLEGRO_SAMPLE* Sound::getSample() {
 }
 
 // Load WAV from file
-void Sound::load_wav(std::string path) {
+void Sound::load_wav(const std::string& path) {
   is_wav = true;
   sample = tools::load_sample_ex(path);
 }
 
 // Load OGG frim file
-void Sound::load_ogg(std::string path) {
+void Sound::load_ogg(const std::string& path) {
   is_wav = false;
   sample = tools::load_sample_ex(path);
 }

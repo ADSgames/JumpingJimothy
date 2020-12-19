@@ -28,7 +28,7 @@ class UIHandler {
                     std::string text,
                     std::string id,
                     ALLEGRO_FONT* font);
-  void createAnchoredButton(std::string text,
+  void createAnchoredButton(const std::string& text,
                             ALLEGRO_FONT* font,
                             std::string anchorID,
                             std::string id,
@@ -37,9 +37,9 @@ class UIHandler {
   [
       [deprecated("Look up using getElementById instead using "
                   "getElementByText")]] UIElement*
-  getElementByText(std::string text);
+  getElementByText(const std::string& text);
 
-  UIElement* getElementById(std::string id);
+  UIElement* getElementById(const std::string& id);
 
   std::vector<UIElement*> getUIElements();
 

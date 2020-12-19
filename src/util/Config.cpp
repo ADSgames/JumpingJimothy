@@ -14,7 +14,7 @@
 std::vector<Config::Dict*> Config::data;
 
 // Read config data from file
-void Config::readFile(std::string path) {
+void Config::readFile(const std::string& path) {
   // Clear old config
   Config::data.clear();
 
@@ -55,7 +55,7 @@ void Config::readFile(std::string path) {
 }
 
 // Write config data to file
-void Config::writeFile(std::string path) {
+void Config::writeFile(const std::string& path) {
   // Create XML doc
   rapidxml::xml_document<> doc;
 
@@ -99,7 +99,7 @@ void Config::writeFile(std::string path) {
 }
 
 // Get string value from key
-std::string Config::getValue(std::string key) {
+std::string Config::getValue(const std::string& key) {
   // Find key
   Dict* element = findKey(key);
 
@@ -113,17 +113,17 @@ std::string Config::getValue(std::string key) {
 }
 
 // Get int value from key
-int Config::getIntValue(std::string key) {
+int Config::getIntValue(const std::string& key) {
   return tools::stringToInt(getValue(key));
 }
 
 // Get boolean value from key
-bool Config::getBooleanValue(std::string key) {
+bool Config::getBooleanValue(const std::string& key) {
   return (bool)tools::stringToInt(getValue(key));
 }
 
 // Set string value
-void Config::setValue(std::string key, std::string value) {
+void Config::setValue(const std::string& key, std::string value) {
   // Search for key
   Dict* element = findKey(key);
 
@@ -138,22 +138,22 @@ void Config::setValue(std::string key, std::string value) {
 }
 
 // Set int const char
-void Config::setValue(std::string key, const char* value) {
+void Config::setValue(const std::string& key, const char* value) {
   setValue(key, tools::toString(value));
 }
 
 // Set int value
-void Config::setValue(std::string key, const int value) {
+void Config::setValue(const std::string& key, const int value) {
   setValue(key, tools::toString(value));
 }
 
 // Set boolean value
-void Config::setValue(std::string key, const bool value) {
+void Config::setValue(const std::string& key, const bool value) {
   setValue(key, tools::toString(value));
 }
 
 // Find values
-Config::Dict* Config::findKey(std::string key) {
+Config::Dict* Config::findKey(const std::string& key) {
   // Search by key
   for (unsigned int i = 0; i < Config::data.size(); i++) {
     if (Config::data.at(i)->getKey() == key) {
@@ -166,6 +166,6 @@ Config::Dict* Config::findKey(std::string key) {
 }
 
 // Add key
-void Config::addKey(std::string key, std::string value) {
+void Config::addKey(const std::string& key, std::string value) {
   Config::data.push_back(new Dict(key, value));
 }

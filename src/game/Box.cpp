@@ -115,19 +115,21 @@ void Box::setPaused(const bool pause) {
     // Make dynamic
     body->SetType(b2_dynamicBody);
 
-    // If between certain threshold we set to 0.0
-    if (paused_velocity.y <= V_THRESH && paused_velocity.y >= -V_THRESH &&
-        paused_velocity.x <= V_THRESH && paused_velocity.x >= -V_THRESH &&
-        paused_angular_velocity <= V_THRESH &&
+    // If between certain threshold we set velocity to 0.0
+    if (paused_velocity.y <= V_THRESH && paused_velocity.y >= -V_THRESH) {
+      paused_velocity = b2Vec2(paused_velocity.x, 0.0f);
+    }
+    if (paused_velocity.x <= V_THRESH && paused_velocity.x >= -V_THRESH) {
+      paused_velocity = b2Vec2(0.0f, paused_velocity.y);
+    }
+    if (paused_angular_velocity <= V_THRESH &&
         paused_angular_velocity >= -V_THRESH) {
-      body->SetAwake(false);
-      body->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+      paused_angular_velocity = 0.0f;
     }
+
     // Reinstate velocity
-    else {
-      body->SetLinearVelocity(paused_velocity);
-      body->SetAngularVelocity(paused_angular_velocity);
-    }
+    body->SetLinearVelocity(paused_velocity);
+    body->SetAngularVelocity(paused_angular_velocity);
   }
 }
 

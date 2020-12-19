@@ -7,11 +7,11 @@
 
 std::vector<Binding*> ActionBinder::bindings;
 
-bool ActionBinder::actionBegun(const int action) {
+bool ActionBinder::actionBegun(const BINDING_ACTION action) {
   std::vector<Binding*> foundBindings = findBindings(action);
 
   for (unsigned int i = 0; i < foundBindings.size(); i++) {
-    if (foundBindings.at(i)->getCode() != BINDING_NONE) {
+    if (foundBindings.at(i)->getAction() != ACTION_NONE) {
       switch (foundBindings.at(i)->getType()) {
         case TYPE_KEY:
           if (KeyListener::keyPressed[foundBindings.at(i)->getCode()]) {
@@ -34,11 +34,11 @@ bool ActionBinder::actionBegun(const int action) {
   return false;
 }
 
-bool ActionBinder::actionHeld(const int action) {
+bool ActionBinder::actionHeld(const BINDING_ACTION action) {
   std::vector<Binding*> foundBindings = findBindings(action);
 
   for (unsigned int i = 0; i < foundBindings.size(); i++) {
-    if (foundBindings.at(i)->getCode() != BINDING_NONE) {
+    if (foundBindings.at(i)->getAction() != ACTION_NONE) {
       switch (foundBindings.at(i)->getType()) {
         case TYPE_KEY:
           if (KeyListener::key[foundBindings.at(i)->getCode()]) {
@@ -61,7 +61,7 @@ bool ActionBinder::actionHeld(const int action) {
   return false;
 }
 
-std::vector<Binding*> ActionBinder::findBindings(const int action) {
+std::vector<Binding*> ActionBinder::findBindings(const BINDING_ACTION action) {
   // Empty binding vector
   std::vector<Binding*> foundBindings;
 
@@ -77,7 +77,9 @@ std::vector<Binding*> ActionBinder::findBindings(const int action) {
 }
 
 // Add binding
-void ActionBinder::addBinding(int action, int type, int code) {
+void ActionBinder::addBinding(const BINDING_ACTION action,
+                              const BINDING_TYPE type,
+                              const int code) {
   ActionBinder::bindings.push_back(new Binding(action, type, code));
 }
 
@@ -108,6 +110,7 @@ void ActionBinder::setDefaults() {
 
   // Action A
   addBinding(ACTION_A, TYPE_KEY, ALLEGRO_KEY_W);
+  addBinding(ACTION_A, TYPE_KEY, ALLEGRO_KEY_UP);
   addBinding(ACTION_A, TYPE_JOY_BUTTON, JOY_XBOX_A);
 
   // Action B

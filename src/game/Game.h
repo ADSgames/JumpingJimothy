@@ -34,22 +34,31 @@ class Game : public State {
 
  private:
   // Functions
-  void load_world(std::string file);
+  void load_world(const std::string& file);
   void load_sprites();
   void reset();
 
   // Creation code
-  Box* create_dynamic_box(float x,
-                          float y,
-                          float velX,
-                          float velY,
+  Box* create_dynamic_box(const float x,
+                          const float y,
+                          const float velX,
+                          const float velY,
                           ALLEGRO_BITMAP*);
-  Box* create_explosive_box(float, float, int, bool);
-  Box* create_static_box(float x, float y, ALLEGRO_BITMAP*);
-  Box* create_collision_box(float x, float y, float, float);
 
-  Goat* create_goat(float, float);
-  Character* create_character(float x, float y);
+  Box* create_explosive_box(const float x,
+                            const float y,
+                            int orientation,
+                            bool affectsCharacter);
+
+  Box* create_static_box(const float x, const float y, ALLEGRO_BITMAP*);
+
+  Box* create_collision_box(const float x,
+                            const float y,
+                            const float,
+                            const float);
+
+  Goat* create_goat(const float x, const float y);
+  Character* create_character(const float x, const float y);
 
   // Our character and goat
   Goat* gameGoat;

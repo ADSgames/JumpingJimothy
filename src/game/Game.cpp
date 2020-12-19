@@ -84,7 +84,7 @@ Game::~Game() {
 }
 
 // Creates box in world
-Goat* Game::create_goat(float x, float y) {
+Goat* Game::create_goat(const float x, const float y) {
   Goat* newGoat = new Goat(x, y, gameCharacter, goat_map, world->getB2World());
   if (gameCharacter == nullptr)
     tools::log_message(
@@ -94,10 +94,10 @@ Goat* Game::create_goat(float x, float y) {
 }
 
 // Creates box in world
-Box* Game::create_dynamic_box(float x,
-                              float y,
-                              float velX,
-                              float velY,
+Box* Game::create_dynamic_box(const float x,
+                              const float y,
+                              const float velX,
+                              const float velY,
                               ALLEGRO_BITMAP* image) {
   DynamicBox* newDynamicBox =
       new DynamicBox(x, y, velX, velY, world->getB2World());
@@ -107,24 +107,29 @@ Box* Game::create_dynamic_box(float x,
 }
 
 // Creates box in world
-Box* Game::create_static_box(float x, float y, ALLEGRO_BITMAP* image) {
+Box* Game::create_static_box(const float x,
+                             const float y,
+                             ALLEGRO_BITMAP* image) {
   StaticBox* newStaticBox = new StaticBox(x, y);
   newStaticBox->setImage(image);
   gameBoxes.push_back(newStaticBox);
   return newStaticBox;
 }
 
-Box* Game::create_collision_box(float x, float y, float width, float height) {
+Box* Game::create_collision_box(const float x,
+                                const float y,
+                                const float width,
+                                const float height) {
   CollisionBox* newCollisionBox =
       new CollisionBox(x, y, width, height, world->getB2World());
   gameBoxes.push_back(newCollisionBox);
   return newCollisionBox;
 }
 
-Box* Game::create_explosive_box(float x,
-                                float y,
-                                int orientation,
-                                bool affectsCharacter) {
+Box* Game::create_explosive_box(const float x,
+                                const float y,
+                                const int orientation,
+                                const bool affectsCharacter) {
   Explosive* newExplosive =
       new Explosive(x, y, affectsCharacter, gameCharacter, world->getB2World());
   ALLEGRO_BITMAP* newBoxImage;
@@ -146,14 +151,14 @@ Box* Game::create_explosive_box(float x,
 }
 
 // Add character to world
-Character* Game::create_character(float x, float y) {
+Character* Game::create_character(const float x, const float y) {
   Character* newCharacter = new Character(x, y, character, world->getB2World());
   gameBoxes.push_back(newCharacter);
   return newCharacter;
 }
 
 // Load world from xml
-void Game::load_world(std::string file) {
+void Game::load_world(const std::string& file) {
   // Load level message
   tools::log_message("Attempting to load " + file + " into game");
 
@@ -258,9 +263,10 @@ void Game::load_world(std::string file) {
       } else if (type == "Finish") {
         gameGoat =
             create_goat(tools::stringToFloat(x), tools::stringToFloat(y) - 1);
-        if (gameCharacter == nullptr)
+        if (gameCharacter == nullptr) {
           tools::log_message(
               "WARNING: Game: goat is passed nullptr gameCharacter");
+        }
         goat_count++;
       } else if (type == "Explosive") {
         newBox = create_explosive_box(
@@ -285,25 +291,27 @@ void Game::load_world(std::string file) {
   // Nice debug code
   // Allan's big ol' debug lines, they're pretty tho
   tools::log_message("===============================");
-  // std::cout << "Level loaded: " << static_count << " static, " <<
-  // dynamic_count << " dynamic, " << character_count << " character(s), " <<
-  // goat_count << " goat(s)\n";
-  if (character_count > 1)
+  if (character_count > 1) {
     tools::log_message(
         "  WARNING: Multiple characters loaded, will have undesired "
         "results...");
-  if (goat_count > 1)
+  }
+  if (goat_count > 1) {
     tools::log_message(
         "  WARNING: Multiple goats loaded, will have undesired results...");
-  if (character_count == 0)
+  }
+  if (character_count == 0) {
     tools::log_message(
         "  WARNING: No character loaded, will have undesired results...");
-  if (goat_count == 0)
+  }
+  if (goat_count == 0) {
     tools::log_message(
         "  WARNING: No goat loaded, will have undesired results...");
+  }
   if (static_count == 0 && dynamic_count == 0 && goat_count == 0 &&
-      character_count == 0)
+      character_count == 0) {
     tools::log_message("  WARNING: No data loaded!");
+  }
   tools::log_message("===============================");
 }
 

@@ -17,8 +17,8 @@ class Sound {
   Sound();
   virtual ~Sound();
 
-  void load_wav(std::string path);
-  void load_ogg(std::string path);
+  void load_wav(const std::string& path);
+  void load_ogg(const std::string& path);
   void play();
   void play(float volume);
   void stop();

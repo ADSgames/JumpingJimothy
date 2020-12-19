@@ -11,9 +11,7 @@
 
 #include <vector>
 
-#define BINDING_NONE -1
-
-enum actions {
+enum BINDING_ACTION {
   ACTION_NONE,
   ACTION_LEFT,
   ACTION_RIGHT,
@@ -24,40 +22,39 @@ enum actions {
   ACTION_SELECT
 };
 
-enum types { TYPE_KEY, TYPE_JOY_STICK, TYPE_JOY_BUTTON };
+enum BINDING_TYPE { TYPE_KEY, TYPE_JOY_STICK, TYPE_JOY_BUTTON };
 
 class Binding {
  public:
-  Binding(int action, int type, int code) {
-    this->action = action;
-    this->type = type;
-    this->code = code;
-  }
+  Binding(const BINDING_ACTION action, const BINDING_TYPE type, const int code)
+      : action(action), type(type), code(code) {}
 
-  Binding() : Binding(BINDING_NONE, BINDING_NONE, BINDING_NONE) {}
+  Binding() : Binding(ACTION_NONE, TYPE_KEY, -1) {}
 
-  int getType() { return type; }
+  BINDING_ACTION getAction() { return action; }
+  BINDING_TYPE getType() { return type; }
   int getCode() { return code; }
-  int getAction() { return action; }
 
  private:
-  int type;
+  BINDING_ACTION action;
+  BINDING_TYPE type;
   int code;
-  int action;
 };
 
 class ActionBinder {
  public:
-  static bool actionBegun(const int action);
-  static bool actionHeld(const int action);
+  static bool actionBegun(const BINDING_ACTION action);
+  static bool actionHeld(const BINDING_ACTION action);
 
-  static void addBinding(int action, int type, int code);
+  static void addBinding(const BINDING_ACTION action,
+                         const BINDING_TYPE type,
+                         const int code);
 
   static void setDefaults();
 
  private:
   static std::vector<Binding*> bindings;
-  static std::vector<Binding*> findBindings(const int action);
+  static std::vector<Binding*> findBindings(const BINDING_ACTION action);
 };
 
 #endif  // ACTIONBINDER_H

@@ -63,7 +63,7 @@ void UIHandler::createButton(const int x,
 }
 
 // Create anchored button
-void UIHandler::createAnchoredButton(std::string text,
+void UIHandler::createAnchoredButton(const std::string& text,
                                      ALLEGRO_FONT* font,
                                      std::string anchorID,
                                      std::string id,
@@ -74,7 +74,7 @@ void UIHandler::createAnchoredButton(std::string text,
 }
 
 // Search for element by text
-UIElement* UIHandler::getElementByText(std::string text) {
+UIElement* UIHandler::getElementByText(const std::string& text) {
   // Find element
   for (unsigned int i = 0; i < ui_elements.size(); i++) {
     if (ui_elements.at(i)->getText() == text) {
@@ -88,7 +88,7 @@ UIElement* UIHandler::getElementByText(std::string text) {
 }
 
 // Search for elemnt by ID
-UIElement* UIHandler::getElementById(std::string id) {
+UIElement* UIHandler::getElementById(const std::string& id) {
   // Find element
   for (unsigned int i = 0; i < ui_elements.size(); i++) {
     if (ui_elements.at(i)->getId() == id) {
